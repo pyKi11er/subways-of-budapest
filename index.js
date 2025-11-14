@@ -1,13 +1,6 @@
 import stations from './stations.json';
 import lines from './lines.json';
 
-const lines = [
-    {"id": 0, "name": "M1", "color": "#FFD800", "start": 19},
-    {"id": 1, "name": "M2", "color": "#E41F18", "start": 28},
-    {"id": 2, "name": "M3", "color": "#005CA5", "start": 3},
-    {"id": 3, "name": "M4", "color": "#4CA22F", "start": 39}
-];
-
 const railwayPoints = [0, 1, 2, 4, 6, 8, 11, 14, 17, 21, 25];
 
 const gameState = {
@@ -70,48 +63,45 @@ function initGame() {
 }
 
 function renderGrid() {
-    const grid = document.querySelector('#gridContainer');
-    grid.innerHTML = '';
-    grid.style.position = 'relative';
+// --- TO index.js, inside renderGrid() ---
 
-    for (let y = 0; y < 10; y++) {
-        for (let x = 0; x < 10; x++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell';
-            cell.dataset.x = x;
-            cell.dataset.y = y;
+    const station = stations.find(s => s.x === x && s.y === y);
+    if (station) {
+        const stationDiv = document.createElement('div');
+        stationDiv.className = 'station'; // Base class
+        stationDiv.dataset.stationId = station.id;
 
-            const station = stations.find(s => s.x === x && s.y === y);
-            if (station) {
-                const stationDiv = document.createElement('div');
-                stationDiv.className = 'station';
-                stationDiv.dataset.stationId = station.id;
-                
-                const currentLine = lines[gameState.roundOrder[gameState.currentRound]];
-                if (station.id === currentLine.start) {
-                    stationDiv.classList.add('start');
-                }
-                
-                if (station.train) {
-                    stationDiv.classList.add('train');
-                }
+        // --- NEW CODE ---
+        // Add a class for the station type, e.g., "station-type-A", "station-type-?"
+        // We escape the '?' for CSS compatibility, though "joker-station" also works
+        const typeClass = station.type === '?' ? 'station-type-joker' : `station-type-${station.type}`;
+        stationDiv.classList.add(typeClass);
+        // --- END NEW CODE ---
 
-                if (station.type === '?') {
-                    stationDiv.classList.add('joker-station');
-                }
-
-                const label = document.createElement('span');
-                label.textContent = station.type === '?' ? '★' : station.type;
-                stationDiv.appendChild(label);
-
-                stationDiv.addEventListener('click', () => handleStationClick(station));
-                cell.appendChild(stationDiv);
-            }
-
-            grid.appendChild(cell);
+        const currentLine = lines[gameState.roundOrder[gameState.currentRound]];
+        if (station.id === currentLine.start) {
+            stationDiv.classList.add('start');
         }
-    }
+        
+        if (station.train) {
+            stationDiv.classList.add('train'); // Keep this, it's useful!
+        }
+        
+        // This class is also good, we can use it
+        if (station.type === '?') {
+            stationDiv.classList.add('joker-station'); 
+        }
 
+        // --- REMOVED ---
+        // We don't need the text label anymore, the image will replace it.
+        // const label = document.createElement('span');
+        // label.textContent = station.type === '?' ? '★' : station.type;
+        // stationDiv.appendChild(label);
+        // --- END REMOVED ---
+
+        stationDiv.addEventListener('click', () => handleStationClick(station));
+        cell.appendChild(stationDiv);
+    }
     renderSegments();
 }
 
@@ -318,9 +308,51 @@ function drawCard() {
     updateCardDisplay();
 }
 
+// --- TO index.js ---
 function updateCardDisplay() {
     const cardEl = document.querySelector('#currentCard');
-    cardEl.textContent = gameState.currentCard || '-';
+    const cardType = gameState.currentCard;
+
+    // Clear previous card state
+    cardEl.textContent = '';
+    cardEl.style.backgroundImage = 'none'; // Clear old image
+    cardEl.classList.remove('joker-card-style'); // Remove special joker style
+
+    if (cardType) {
+        switch (cardType) {
+            case 'A':
+                // Use the image you provided for 'A'
+                cardEl.style.backgroundImage = "url('assets/variant=inside.png')";
+                // The image already has "A", so we don't set textContent
+                break;
+            case 'B':
+                // TO-DO: You need to create 'variant=B.png' or similar
+                // cardEl.style.backgroundImage = "url('assets/variant=B.png')";
+                cardEl.textContent = 'B'; // Fallback to text
+                break;
+            case 'C':
+                // TO-DO: You need to create 'variant=C.png' or similar
+                cardEl.textContent = 'C'; // Fallback to text
+                break;
+            case 'D':
+                // TO-DO: You need to create 'variant=D.png' or similar
+                cardEl.textContent = 'D'; // Fallback to text
+                break;
+            case 'Joker':
+                // We can give the Joker card a special style
+                cardEl.textContent = '★';
+                cardEl.classList.add('joker-card-style');
+                break;
+            case 'Switch':
+                cardEl.textContent = 'Switch'; // Or find an icon
+                break;
+            default:
+                cardEl.textContent = '-';
+        }
+    } else {
+        cardEl.textContent = '-';
+    }
+
     document.querySelector('#cardCount').textContent = `${gameState.cardsDrawn}/8`;
 }
 

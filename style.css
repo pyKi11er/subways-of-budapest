@@ -173,44 +173,58 @@ button:active {
     background: #f0f0f0;
 }
 
+/* --- Add to style.css --- */
+
+/* 1. MODIFY your existing .station rule */
 .station {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
     position: relative;
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.station::before {
-    content: '';
-    width: 60%;
-    height: 60%;
-    border-radius: 50%;
-    background: white;
-    border: 3px solid #333;
-    position: absolute;
+
+/* 3. ADD these new rules to define the icon for each station type */
+
+/* Base station icons */
+.station.station-type-A {
+    background-image: url('assets/icons/Name=Station A, Left=Grey.png');
+}
+.station.station-type-B {
+    background-image: url('assets/icons/Name=Station B, Left=Grey.png');
+}
+.station.station-type-C {
+    background-image: url('assets/icons/Name=Station C, Left=Grey.png');
+}
+.station.station-type-D {
+    background-image: url('assets/icons/Name=Station D, Left=Grey.png');
+}
+.station.station-type-joker { /* Or use .joker-station */
+    background-image: url('assets/icons/Name=Station _, Left=Grey.png');
 }
 
-.station span {
-    position: relative;
-    z-index: 1;
+/* Override icons for train stations (handles .train class) */
+/* This combines classes: .station-type-A AND .train */
+.station.station-type-A.train {
+    background-image: url('assets/icons/Name=Station A Station, Left=Grey.png');
+}
+/* You only provided "A", "C", and "D" train icons. Add "B" if you have it */
+.station.station-type-C.train {
+    background-image: url('assets/icons/Name=Station C Station, Left=Grey.png');
+}
+.station.station-type-D.train {
+    background-image: url('assets/icons/Name=Station D Station, Left=Grey.png');
 }
 
 .station.start::before {
     border-width: 5px;
     width: 80%;
     height: 80%;
-}
-
-.station.train::after {
-    content: '🚂';
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    font-size: 14px;
 }
 
 .station.connected {
@@ -242,7 +256,7 @@ button:active {
     background: white;
     border: 3px solid #333;
     border-radius: 12px;
-    padding: 40px;
+    padding: 0px;
     font-size: 48px;
     font-weight: bold;
     margin: 15px 0;
@@ -250,6 +264,17 @@ button:active {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-size: contain; /* 'contain' fits the whole image */
+    /* background-size: cover; */ /* 'cover' fills the whole box, cropping if needed */
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333; /* Set a fallback text color */
+}
+
+.joker-card-style {
+    /* This mimics the gradient from your joker station icon */
+    background: linear-gradient(45deg, #FFD800, #E41F18, #005CA5, #4CA22F);
+    color: white; /* Make text white on the dark background */
 }
 
 .round-info {
