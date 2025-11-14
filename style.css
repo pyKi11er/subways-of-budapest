@@ -1,0 +1,363 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 1200px;
+    width: 100%;
+    padding: 30px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.menu-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.rules {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.rules h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.rules ul {
+    list-style-position: inside;
+    color: #666;
+    line-height: 1.8;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.game-info {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.current-line {
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.game-board {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.board-container {
+    flex: 1;
+    position: relative;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+    background: #ddd;
+    border: 2px solid #333;
+    aspect-ratio: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cell {
+    background: #fff;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cell:hover {
+    background: #f0f0f0;
+}
+
+.station {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    position: relative;
+}
+
+.station::before {
+    content: '';
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #333;
+    position: absolute;
+}
+
+.station span {
+    position: relative;
+    z-index: 1;
+}
+
+.station.start::before {
+    border-width: 5px;
+    width: 80%;
+    height: 80%;
+}
+
+.station.train::after {
+    content: '🚂';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 14px;
+}
+
+.station.connected {
+    background: rgba(0, 255, 0, 0.2);
+}
+
+.segment-line {
+    position: absolute;
+    background: currentColor;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-display {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.card {
+    background: white;
+    border: 3px solid #333;
+    border-radius: 12px;
+    padding: 40px;
+    font-size: 48px;
+    font-weight: bold;
+    margin: 15px 0;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.round-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.round-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.round-item {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    opacity: 0.5;
+}
+
+.round-item.active {
+    opacity: 1;
+    box-shadow: 0 0 10px currentColor;
+}
+
+.round-item.completed {
+    opacity: 0.3;
+}
+
+.score-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.score-item:last-child {
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.railway-track {
+    margin-top: 15px;
+}
+
+.railway-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.railway-bar {
+    background: #ddd;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.railway-progress {
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (max-width: 900px) {
+    .game-board {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.joker-station::before {
+    background: linear-gradient(45deg, #FFD800, #E41F18, #005CA5, #4CA22F) !important;
+}
+
+.easter {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.easter:hover {
+    transform: scale(1.2);
+}
