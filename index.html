@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budapest Metro Line Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="menu" class="screen active">
+            <h1>Budapest Metro Game</h1>
+            <div class="menu-content">
+                <div class="input-group">
+                    <label for="playerName">Player Name:</label>
+                    <input type="text" id="playerName" placeholder="Enter your name">
+                </div>
+                <button id="startBtn">Start Game</button>
+                <button id="rulesBtn">Show Rules</button>
+                <div id="rulesSection" class="rules" style="display: none;">
+                    <h3>Game Rules</h3>
+                    <ul>
+                        <li>Build metro lines by connecting stations on the grid</li>
+                        <li>Draw cards showing station types (A, B, C, D) or Joker</li>
+                        <li>Draw segments by clicking from one station to another</li>
+                        <li>First segment starts from the line's starting station</li>
+                        <li>Segments must be straight lines (horizontal or vertical)</li>
+                        <li>Cannot cross other segments except at stations</li>
+                        <li>Cannot pass through stations</li>
+                        <li>Station 30 (Deák tér) is a Joker - any card connects to it</li>
+                        <li>Round ends after 8 cards are drawn</li>
+                        <li>Complete 4 rounds to finish the game</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="game" class="screen">
+            <div class="game-header">
+                <div class="game-info">
+                    <div class="info-item">Player: <span id="playerDisplay"></span></div>
+                    <div class="info-item">Time: <span id="timer">00:00</span></div>
+                    <div class="info-item">Cards: <span id="cardCount">0/8</span></div>
+                </div>
+                <div id="currentLine" class="current-line"></div>
+            </div>
+
+            <div class="game-board">
+                <div class="board-container">
+                    <div id="gridContainer" class="grid"></div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="card-display">
+                        <h3>Current Card</h3>
+                        <div id="currentCard" class="card">-</div>
+                        <div class="game-controls">
+                            <button id="drawCardBtn">Draw Card</button>
+                            <button id="skipBtn">Skip (Draw Next)</button>
+                        </div>
+                    </div>
+
+                    <div class="round-info">
+                        <h3>Rounds</h3>
+                        <div id="roundList" class="round-list"></div>
+                    </div>
+
+                    <div class="score-display">
+                        <h3>Score</h3>
+                        <div id="scoreDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="easter">💙</div>
+
+    
+</body>
+</html>
